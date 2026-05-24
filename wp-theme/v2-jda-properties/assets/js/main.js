@@ -103,42 +103,71 @@
     });
   }
 
-  // ---------- Lead form (AJAX to admin-ajax.php) ----------
+  // ---------- Lead form ----------
+  // Two modes:
+  //   1. WordPress mode  -> window.V2JDA exists; POST to admin-ajax.php (JSON response).
+  //   2. Static mode     -> form has data-endpoint="https://script.google.com/.../exec";
+  //                         POST direct to Google Apps Script with no-cors.
   var form = document.querySelector('#leadForm');
-  if (form && window.V2JDA) {
+  if (form) {
     var status = form.querySelector('.form-status');
+    var staticEndpoint = form.getAttribute('data-endpoint');
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       status.textContent = 'Sending...';
       status.className = 'form-status';
 
       var data = new FormData(form);
-      // Ensure nonce + action are set
-      data.set('action', 'v2jda_submit_lead');
-      data.set('nonce', V2JDA.nonce);
 
-      fetch(V2JDA.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' })
-        .then(function (r) { return r.json(); })
-        .then(function (res) {
-          if (res && res.success) {
-            status.textContent = (res.data && res.data.message) || 'Thank you! We will contact you soon.';
+      if (window.V2JDA && !staticEndpoint) {
+        // WordPress AJAX
+        data.set('action', 'v2jda_submit_lead');
+        data.set('nonce', V2JDA.nonce);
+
+        fetch(V2JDA.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && res.success) {
+              status.textContent = (res.data && res.data.message) || 'Thank you! We will contact you soon.';
+              status.className = 'form-status success';
+              form.reset();
+              if (window.gtag) gtag('event', 'lead_submit');
+            } else {
+              status.textContent = (res && res.data && res.data.message) || 'Please check the form and try again.';
+              status.className = 'form-status error';
+            }
+          })
+          .catch(function () {
+            status.textContent = 'Sorry, something went wrong. Please call us at +91 75979 61878.';
+            status.className = 'form-status error';
+          });
+        return;
+      }
+
+      if (staticEndpoint) {
+        // Static -> Google Apps Script. no-cors means we can't read the response,
+        // so we treat any non-thrown call as success.
+        data.set('source', window.location.href);
+        data.set('submitted_at', new Date().toISOString());
+
+        fetch(staticEndpoint, { method: 'POST', mode: 'no-cors', body: data })
+          .then(function () {
+            status.textContent = 'Thank you! We have received your enquiry and will call you shortly.';
             status.className = 'form-status success';
             form.reset();
             if (window.gtag) gtag('event', 'lead_submit');
-            if (V2JDA.thanksUrl && V2JDA.thanksUrl.indexOf('http') === 0) {
-              // Optional redirect after 1.5s if a /thank-you/ page exists.
-              // Comment out the next line if you don't want auto-redirect.
-              // setTimeout(function () { window.location.href = V2JDA.thanksUrl; }, 1500);
-            }
-          } else {
-            status.textContent = (res && res.data && res.data.message) || 'Please check the form and try again.';
+          })
+          .catch(function () {
+            status.textContent = 'Sorry, something went wrong. Please call us at +91 75979 61878.';
             status.className = 'form-status error';
-          }
-        })
-        .catch(function () {
-          status.textContent = 'Sorry, something went wrong. Please call us at +91 75979 61878.';
-          status.className = 'form-status error';
-        });
+          });
+        return;
+      }
+
+      // Neither configured -> friendly fallback.
+      status.textContent = 'Form not configured. Please call +91 75979 61878 or email vishalkhandelwal267@gmail.com.';
+      status.className = 'form-status error';
     });
   }
 })();

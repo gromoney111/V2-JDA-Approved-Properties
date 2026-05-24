@@ -5,17 +5,32 @@ Custom WordPress theme + Google Sheets lead pipeline for **V2 JDA Approved Prope
 > **Contact:** Vishal Khandelwal · `+91 75979 61878` · `vishalkhandelwal267@gmail.com`
 > **Social:** [Facebook](https://www.facebook.com/share/1Ct7vcFE6Y/) · [YouTube](https://youtube.com/@v2jdaapprovedproperties)
 
+## 🌐 Live preview
+
+A **static HTML preview** of the design runs free on GitHub Pages at:
+
+**https://gromoney111.github.io/V2-JDA-Approved-Properties/**
+
+(Enable Pages once: *Repository → Settings → Pages → Source: "Deploy from a branch" → Branch: `main` → `/ (root)` → Save*. Wait ~1 minute and the URL goes live.)
+
+The preview includes Home, About, Projects, Gallery, Media, Contact and a 404 page — same design and animations as the production WordPress theme. Use it to share with clients before paying for hosting.
+
+> **Note:** GitHub Pages can only run static HTML/CSS/JS — it cannot run WordPress (which needs PHP + MySQL). For the **production** site with the admin dashboard, lead-management, project CPT, etc., follow `docs/INSTALL.md` to install the WordPress theme on real hosting (Hostinger / GoDaddy / Bluehost).
+
 ## What's in this repo
 
 ```
 .
-├── wp-theme/v2-jda-properties/   ← the WordPress theme (install this)
+├── index.html, about.html, ...   ← static preview pages (GitHub Pages)
+├── wp-theme/v2-jda-properties/   ← the WordPress theme (production)
 ├── google-apps-script/Code.gs    ← receives leads into Google Sheets
 └── docs/
     ├── INSTALL.md                ← step-by-step theme install
     ├── GOOGLE_SHEETS_SETUP.md    ← 5-minute Sheets setup
     └── CONTENT_GUIDE.md          ← how to add projects, photos, SEO copy
 ```
+
+The static preview pages share the same CSS/JS/logo as the WordPress theme, so any visual change you make in `wp-theme/v2-jda-properties/assets/` automatically updates both the preview and production.
 
 ## Features
 
