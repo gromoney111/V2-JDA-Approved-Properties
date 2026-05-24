@@ -88,3 +88,14 @@ function v2jda_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'v2jda_body_class' );
+
+/**
+ * Default favicon — uses the bundled SVG icon if no Site Icon
+ * has been uploaded under Customize → Site Identity.
+ */
+function v2jda_default_favicon() {
+	if ( has_site_icon() ) { return; }
+	$icon = V2JDA_URI . '/assets/img/logo-icon.svg';
+	echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $icon ) . '" />' . "\n";
+}
+add_action( 'wp_head', 'v2jda_default_favicon', 5 );

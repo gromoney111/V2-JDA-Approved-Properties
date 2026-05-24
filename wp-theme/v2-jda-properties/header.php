@@ -21,7 +21,10 @@
 	<div class="container nav">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="brand-logo" aria-label="<?php bloginfo( 'name' ); ?>">
 			<?php if ( has_custom_logo() ) : the_custom_logo(); else : ?>
-				<span class="mark">V2</span>
+				<img src="<?php echo esc_url( V2JDA_URI . '/assets/img/logo.svg' ); ?>"
+				     alt="<?php bloginfo( 'name' ); ?>"
+				     width="60" height="60"
+				     style="background:#fff; border-radius:10px; padding:4px" />
 				<span><?php bloginfo( 'name' ); ?><small><?php esc_html_e( 'JDA & RERA Approved', 'v2jda' ); ?></small></span>
 			<?php endif; ?>
 		</a>

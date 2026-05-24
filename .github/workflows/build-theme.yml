@@ -1,0 +1,41 @@
+name: Build theme ZIP
+
+# Builds v2-jda-properties.zip on every push to main and on tagged releases.
+# - On push: the zip is uploaded as a workflow artifact (downloadable from
+#   the Actions tab for ~90 days).
+# - On tag (v*.*.*): the zip is also attached to the GitHub Release.
+
+on:
+  push:
+    branches: [ '**' ]
+    tags:     [ 'v*.*.*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build theme zip
+        run: |
+          cd wp-theme
+          zip -r ../v2-jda-properties.zip v2-jda-properties \
+            -x '*.DS_Store' -x '*.git*'
+          ls -la ../v2-jda-properties.zip
+
+      - name: Upload as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-jda-properties
+          path: v2-jda-properties.zip
+          if-no-files-found: error
+
+      - name: Attach to release (only on tag)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: v2-jda-properties.zip

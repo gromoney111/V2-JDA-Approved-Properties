@@ -11,7 +11,10 @@
 	<div class="container foot-grid">
 		<div class="foot-col foot-about">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="brand-logo" style="margin-bottom:16px">
-				<span class="mark">V2</span>
+				<img src="<?php echo esc_url( V2JDA_URI . '/assets/img/logo.svg' ); ?>"
+				     alt="<?php bloginfo( 'name' ); ?>"
+				     width="60" height="60"
+				     style="background:#fff; border-radius:10px; padding:4px" />
 				<span style="color:#fff"><?php bloginfo( 'name' ); ?><small><?php esc_html_e( 'JDA & RERA Approved', 'v2jda' ); ?></small></span>
 			</a>
 			<p><?php echo esc_html( get_bloginfo( 'description' ) ?: 'Your trusted partner for JDA & RERA approved residential plots, villas and farm-house land across Jaipur.' ); ?></p>

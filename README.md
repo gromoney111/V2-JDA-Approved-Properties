@@ -30,15 +30,59 @@ Custom WordPress theme + Google Sheets lead pipeline for **V2 JDA Approved Prope
 - **Theme Customizer** — change phone, email, social URLs, hero copy, lead webhook URL without touching code.
 - **Original code, no licensing risk** — written from scratch, GPL-2.0-or-later.
 
+## How to download the theme ZIP
+
+WordPress needs a single `.zip` of the theme folder (not the whole repo). Pick whichever option is easiest for you:
+
+### Option A — Download from GitHub Actions (easiest, no tools needed)
+
+After this branch is pushed, GitHub Actions automatically builds `v2-jda-properties.zip` and stores it as a downloadable artifact.
+
+1. Go to **[Actions tab](https://github.com/gromoney111/V2-JDA-Approved-Properties/actions)**.
+2. Click the most recent successful "Build theme ZIP" run.
+3. Scroll to the **Artifacts** section at the bottom of the page.
+4. Click **`v2-jda-properties`** to download the ZIP.
+
+(Artifacts expire after 90 days. To get a permanent copy, push a tag like `v1.0.0` and a GitHub Release will be created with the ZIP attached.)
+
+### Option B — Build it yourself (one command, requires `zip` + bash)
+
+```bash
+git clone https://github.com/gromoney111/V2-JDA-Approved-Properties.git
+cd V2-JDA-Approved-Properties
+bash build-theme-zip.sh
+```
+
+This produces `v2-jda-properties.zip` in the repo root, ready to upload.
+
+### Option C — Manual (no tools)
+
+1. Click the green **Code** button on the [repo page](https://github.com/gromoney111/V2-JDA-Approved-Properties), then **Download ZIP**.
+2. Unzip what you downloaded.
+3. Go inside `wp-theme/`, right-click the `v2-jda-properties` folder, and **Compress** / **Send to → Compressed (zipped) folder**. That ZIP is what you upload to WordPress.
+
+> ⚠️ Don't upload the whole repo ZIP — WordPress will reject it. It needs a ZIP whose top-level folder is `v2-jda-properties/` containing `style.css`, `functions.php`, etc.
+
 ## Quick start
 
 1. **Install WordPress** on your hosting.
-2. From `wp-theme/`, zip the `v2-jda-properties` folder and upload it via *Appearance → Themes → Add New → Upload Theme*. Activate.
-3. Open *Appearance → Customize* and fill in the **V2 JDA - Contact**, **Social Links** and **Hero** sections.
-4. Follow [`docs/GOOGLE_SHEETS_SETUP.md`](docs/GOOGLE_SHEETS_SETUP.md) (≈ 5 min) to wire up Google Sheets.
-5. Add your projects under *Projects → Add New* (see [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md)).
+2. Get the theme ZIP using one of the options above.
+3. In WordPress: *Appearance → Themes → Add New → Upload Theme* → upload the ZIP → **Activate**.
+4. Open *Appearance → Customize* and fill in the **V2 JDA - Contact**, **Social Links**, **Hero** and **Site Identity (logo)** sections.
+5. Follow [`docs/GOOGLE_SHEETS_SETUP.md`](docs/GOOGLE_SHEETS_SETUP.md) (≈ 5 min) to wire up Google Sheets for leads.
+6. Add your projects under *Projects → Add New* (see [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md)).
 
 Full instructions: [`docs/INSTALL.md`](docs/INSTALL.md).
+
+## Logo
+
+The theme ships with an SVG default logo (silver/blue ring with "V2", a small house silhouette, and a "JDA APPROVED PROPERTIES" arc). To replace it with your own PNG/JPG/SVG:
+
+1. *Appearance → Customize → Site Identity*.
+2. Click **Select logo** and upload your file (recommended size: 200×60 px or square 200×200 px for header use).
+3. Click **Publish**.
+
+The same Site Identity panel lets you upload a **Site Icon** (the browser-tab favicon). If you skip it, the bundled gold "V2" SVG icon is used automatically.
 
 ## Tech notes
 
