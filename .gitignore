@@ -1,0 +1,10 @@
+# Built artifacts
+v2-jda-properties.zip
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
